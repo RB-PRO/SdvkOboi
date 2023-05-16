@@ -70,3 +70,13 @@ func TestInMetr(t *testing.T) {
 		t.Errorf("Для строки '%v' должно быть получиться %v, а получено: %v", input2, answer2, output2)
 	}
 }
+
+func TestPageRequest(t *testing.T) {
+	pages, err := PageRequest(3)
+	if err != nil {
+		t.Error(err)
+	}
+	if len(pages) == 0 {
+		t.Error("Нулевая длина карточки товаров.")
+	}
+}
