@@ -1,8 +1,6 @@
 package sdvk
 
 import (
-	"log"
-	"os"
 	"strconv"
 	"strings"
 
@@ -44,7 +42,7 @@ func ItemRequest(link string) (item Item, ErrorParse error) {
 	// Основное фото
 	c.OnHTML(`img[class^="contained main-photo"]`, func(e *colly.HTMLElement) {
 		if Value, IsExist := e.DOM.Attr("src"); IsExist {
-			item.PhotoMain = Value
+			item.PhotoMain = Value[2:]
 		}
 	})
 	// Фото
@@ -52,7 +50,7 @@ func ItemRequest(link string) (item Item, ErrorParse error) {
 		if Value, IsExist := e.DOM.Attr("src"); IsExist {
 			if strings.Contains(Value, "jpg") {
 				Value = strings.ReplaceAll(Value, "175.jpg", ".jpg")
-				item.Photo = append(item.Photo, Value)
+				item.Photo = append(item.Photo, Value[2:])
 			}
 		}
 	})
@@ -73,14 +71,6 @@ func ItemRequest(link string) (item Item, ErrorParse error) {
 			if ValueInt, ErrorAtoi := strconv.Atoi(Value); ErrorAtoi == nil {
 				item.Price = ValueInt
 			}
-		}
-	})
-
-	// Сохранить
-	c.OnHTML(`body`, func(e *colly.HTMLElement) {
-		html, _ := e.DOM.Html()
-		if err := os.WriteFile("file.html", []byte(html), 0666); err != nil {
-			log.Fatal(err)
 		}
 	})
 

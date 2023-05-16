@@ -10,7 +10,7 @@ import (
 // Функция парсинга товаров и сохранения в xlsx
 func Start() {
 	lens := 1482
-	lens = 10
+	// lens = 10
 	bar := pb.StartNew(lens)
 	defer bar.Finish()
 	Items := make([]sdvk.Item, 0)
